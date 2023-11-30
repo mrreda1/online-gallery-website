@@ -37,32 +37,10 @@ class Post(db.Model):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 
-posts = [
-    {
-        'author': 'Mohamed Reda',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'NOV 29, 2023'
-    },
-    {
-        'author': 'Mohamed Seif',
-        'title': 'Blog post 2',
-        'content': 'Second post content',
-        'date_posted': 'NOV 30, 2023'
-    },
-    {
-        'author': 'Rawan Hesham',
-        'title': 'Blog post 3',
-        'content': 'Third post content',
-        'date_posted': 'DEC 1, 2023'
-    }
-]
-
-
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('main.html', posts=posts, title='Home')
+    return render_template('main.html', posts=Post.query.all(), title='Home')
 
 
 @app.route("/about")
@@ -74,6 +52,11 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        pwd = form.password.data
+        db.session.add(User(username=username, email=email, password=pwd))
+        db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
@@ -83,8 +66,15 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Welcome back!', 'success')
-        return redirect(url_for('home'))
+        user = User.query.filter(User.email == form.email.data).first()
+        if (user):
+            if (user.password == form.password.data):
+                flash('Welcome back!', 'success')
+                return redirect(url_for('home'))
+            else:
+                flash('Invalid username or password.', 'danger')
+        else:
+            flash(f"Email '{form.email.data}' not found!", 'danger')
     return render_template('login.html', title='Log In', form=form)
 
 
