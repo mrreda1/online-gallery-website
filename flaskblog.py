@@ -1,8 +1,41 @@
 #!/usr/bin/python3
 
-from flask import flash, redirect, render_template, url_for
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, flash, redirect, render_template, url_for
 from forms import RegistrationForm, LoginForm
-from dbconnect import app, mysql
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '16619cdf9dfd997ce0cec97fe5ce3233'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+app.app_context().push()
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
+
 
 posts = [
     {
@@ -41,14 +74,8 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        cur = mysql.cursor()
-        cur.execute(f"INSERT INTO users (username, email, password) VALUES ('{form.username.data}', '{form.email.data}', '{form.password.data}')")
-        mysql.commit()
-        cur.close()
-
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
-
     return render_template('register.html', title='Register', form=form)
 
 
