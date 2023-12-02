@@ -1,11 +1,16 @@
-from flask import Blueprint
+from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+from flaskblog import bcrypt, db
+from flaskblog.users.forms import LoginForm, RegistrationForm, UpdateAccountForm
+from flaskblog.models import Post, User
+from flaskblog.users.utils import save_picture
 
 users = Blueprint('users', __name__)
 
 @users.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         username = str(form.username.data).lower()
@@ -15,7 +20,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
 
     return render_template('register.html', title='Register', form=form)
 
@@ -23,7 +28,7 @@ def register():
 @users.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -34,7 +39,7 @@ def login():
                 return redirect(next_page)
             else:
                 flash('Welcome back!', 'success')
-                return redirect(url_for('home'))
+                return redirect(url_for('main.home'))
         else:
             flash('Incorrect Email or Password.', 'danger')
     return render_template('login.html', title='Log In', form=form)
@@ -53,7 +58,7 @@ def account():
             current_user.email = str(form.email.data).lower()
             db.session.commit()
             flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -74,4 +79,4 @@ def user_posts(username):
 @users.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))

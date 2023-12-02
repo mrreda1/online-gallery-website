@@ -1,8 +1,10 @@
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField, validators
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed, FileField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField
+from wtforms.validators import (DataRequired, Email, EqualTo, Length,
+                                ValidationError)
+
 from flaskblog.models import User
 
 
@@ -28,11 +30,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me.')
     submit = SubmitField('Login')
-
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
 
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
