@@ -19,10 +19,6 @@
 -- Table structure for table `posts`
 --
 
-DROP DATABASE IF EXISTS `testdb`;
-CREATE DATABASE `testdb`;
-USE `testdb`;
-
 DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -35,7 +31,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +40,8 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES
+(1,'Blog number 1','2023-11-29 00:00:00','First plog here',1);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +61,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +72,11 @@ LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
 (1,'mohamedreda','mohamedreda@gmail.com','default.jpg','Hunter'),
-(2,'lordyy','lordyy@gmail.com','default.jpg','111');
+(3,'omar_salama','omar_salama@gmail.com','default.jpg','1234'),
+(6,'alkady','alkady@gmail.com','default.jpg','12345'),
+(9,'mohamedmedhat','mohamedmedhat0@gmail.com','default.jpg','567'),
+(10,'dummyacc','dummyacc@gmail.com','default.jpg','111'),
+(11,'exa1','ex@gmail.com','default.jpg','$2b$12$hmfsVS9hcKXfdQgh/YS0YOoKQIcxQtyxGWjhT7Wrp.XlHIKC422by');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -87,4 +89,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-30 18:51:32
+-- Dump completed on 2023-12-01  5:18:18
