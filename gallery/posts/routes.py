@@ -2,9 +2,9 @@ from flask import (Blueprint, abort, flash, redirect, render_template, request,
                    url_for)
 from flask_login import current_user, login_required
 
-from flaskblog import db
-from flaskblog.posts.forms import PostForm
-from flaskblog.models import Post
+from gallery import db
+from gallery.posts.forms import PostForm
+from gallery.models import Post
 
 posts = Blueprint('posts', __name__)
 

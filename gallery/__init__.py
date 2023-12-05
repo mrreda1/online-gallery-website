@@ -2,7 +2,7 @@ from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from flaskblog.config import Config
+from gallery.config import Config
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -21,9 +21,9 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    from flaskblog.users.routes import users
-    from flaskblog.posts.routes import posts
-    from flaskblog.main.routes import main
+    from gallery.users.routes import users
+    from gallery.posts.routes import posts
+    from gallery.main.routes import main
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)

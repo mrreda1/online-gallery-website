@@ -5,7 +5,7 @@ from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length,
                                 ValidationError)
 
-from flaskblog.models import User
+from gallery.models import User
 
 
 class RegistrationForm(FlaskForm):

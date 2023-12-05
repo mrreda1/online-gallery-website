@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from flaskblog import create_app
+from gallery import create_app
 
 app = create_app()
 
