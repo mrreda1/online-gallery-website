@@ -6,80 +6,83 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    {% if title %}<title>ZAFTOT - {{ title }}</title>
-    {% else %}<title>ZAFTOT</title>{% endif %}
+    {% if title %}<title>PHOTOGIA - {{ title }}</title>
+    {% else %}<title>PHOTOGIA</title>{% endif %}
 
-        <!-- Additional CSS Files -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static/assets/css', filename='fontawesome.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static/assets/css', filename='templatemo-cyborg-gaming.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static/assets/css', filename='owl.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static/assets/css', filename='animate.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static/assets/css', filename='login.css') }}" />
-        <!-- -->
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-cyborg-gaming.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/regestration.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/upload.css') }}">
+    <!-- -->
 
-    </head>
+  </head>
 
-    <body>
+  <body>
 
-        <!-- ***** Preloader Start ***** -->
-        <div id="js-preloader" class="js-preloader">
-            <div class="preloader-inner">
-                <span class="dot"></span>
-                <div class="dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
+    <!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+      <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <!-- ***** Preloader End ***** -->
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
-        <!-- ***** Header Area Start ***** -->
-        <header class="header-area header-sticky">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <nav class="main-nav">
-                            <!-- ***** Logo Start ***** -->
-                            <a href="{{ url_for('index.html') }}" class="logo">
-                                <img src="{{ url_for('static/assets/images', filename='logooo.jpeg') }}" alt="">
-                            </a>
-                            <!-- ***** Logo End ***** -->
-                            <!-- ***** Menu Start ***** -->
-                            <ul class="nav">    
-                                <li><a href="{{ url_for('index.html') }}">Home</a></li>
-                                <li><a href="{{ url_for('upload.html') }}">Upload</a></li>
-                                <li><a href="{{ url_for('about.html') }}">About us </a></li>
-                                <li><a href="{{ url_for('login.html') }}">Login</a></li>
-                                <li><a href="{{ url_for('register.html') }}">Register</a></li>
-                                <li><a href="{{ url_for('logout.html') }}">Logout</a></li>
-                                <li><a href="{{ url_for('profile.html') }}">Profile<img src="{{ url_for('static/assets/images', filename='user.png') }}" alt=""></a></li>
-                            </ul>
-                            <a class='menu-trigger'>
-                                <span>Menu</span>
-                            </a>
-                            <!-- ***** Menu End ***** -->
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- ***** Header Area End ***** -->
-        {% block content %}{% endblock %}
-        <!-- Scripts -->
-        <script src="{{ url_for('static/vendor/jquery', filename='jquery.min.js') }}"></script>
-        <script src="{{ url_for('static/vendor/bootstrap/js', filename='bootstrap.min.js') }}"></script>
-        <script src="{{ url_for('static/assets/js', filename='isotope.min.js') }}"></script>
-        <script src="{{ url_for('static/assets/js', filename='owl-carousel.js') }}"></script>
-        <script src="{{ url_for('static/assets/js', filename='tabs.js') }}"></script>
-        <script src="{{ url_for('static/assets/js', filename='popup.js') }}"></script>
-        <script src="{{ url_for('static/assets/js', filename='custom.js') }}"></script>
-        <script src="{{ url_for('static/assets/js', filename='login.js') }}"></script>
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="main-nav">
+              <!-- ***** Logo Start ***** -->
+              <a href="{{ url_for('main.home') }}" class="logo">
+                <img src="{{ url_for('static', filename='assets/images/logooo.jpeg') }}" alt="">
+              </a>
+              <!-- ***** Logo End ***** -->
+              <!-- ***** Menu Start ***** -->
+              <ul class="nav">    
+                <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                <li><a href="{{ url_for('main.about') }}">About us </a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('posts.new_post') }}">Upload</a></li>
+                  <li><a href="{{ url_for('users.logout') }}">Logout</a></li>
+                {% else %}
+                  <li><a href="{{ url_for('users.login') }}">Login</a></li>
+                  <li><a href="{{ url_for('users.register') }}">Register</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('users.userProfile', username = current_user.username)}}" style="color: white;">Profile<img src="{{ url_for('static', filename='assets/images/user.png') }}" style="filter: invert()" alt=""></a></li>
+              </ul>
+              <a class='menu-trigger'>
+                <span>Menu</span>
+              </a>
+              <!-- ***** Menu End ***** -->
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+    {% block content %}{% endblock %}
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/isotope.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/owl-carousel.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/tabs.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
 
-    </body>
+  </body>
 
 </html>

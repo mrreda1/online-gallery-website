@@ -6,11 +6,14 @@ from wtforms.validators import (DataRequired, Email, EqualTo, Length,
                                 ValidationError)
 
 from gallery.models import User
+from gallery import bcrypt
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    firstname = StringField('First name', validators=[DataRequired(), Length(min=3, max=20)])
+    lastname = StringField('Last name', validators=[DataRequired(), Length(min=3, max=20)])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=50)])
+    email = StringField('Email address', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
@@ -26,15 +29,18 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("Email already registered.")
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email address', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me.')
-    submit = SubmitField('Login')
+    submit = SubmitField('Log In')
+
 
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    firstname = StringField('First name', validators=[DataRequired(), Length(min=3, max=20)])
+    lastname = StringField('Last name', validators=[DataRequired(), Length(min=3, max=20)])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=50)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpeg', 'jpg', 'png'])])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -48,3 +54,13 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError("Email already registered.")
+
+class UpdateSecurityForm(FlaskForm):
+    current = PasswordField('Current password', validators=[DataRequired()])
+    new = PasswordField('New password', validators=[DataRequired()])
+    confirm = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('new')])
+    submit = SubmitField('Update')
+
+    def validate_current(self, current):
+        if (not bcrypt.check_password_hash(current_user.password, current.data)):
+            raise ValidationError("Password isn't correct!")

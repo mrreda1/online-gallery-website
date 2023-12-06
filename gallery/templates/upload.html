@@ -1,144 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
+  <div class="container">
+    <div class="page-content-upload">
 
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-    <title>ZFTOT</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-cyborg-gaming.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="/assets/css/login.css" />
-    <!--
-
-TemplateMo 579 Cyborg Gaming
-
-https://templatemo.com/tm-579-cyborg-gaming
-
--->
-</head>
-
-<body>
-
-    <!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="preloader-inner">
-            <span class="dot"></span>
-            <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
-
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <nav class="main-nav">
-              <!-- ***** Logo Start ***** -->
-              <a href="index.html" class="logo">
-                <img src="assets/images/logooo.jpeg" alt="">
-              </a>
-              <!-- ***** Logo End ***** -->
-              <!-- ***** Menu Start ***** -->
-              <ul class="nav">    
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="upload.html">Upload</a></li>
-                <li><a href="about.html">About us </a></li>
-                <li><a href="login.html" class="button" id="form-open1" >Login </a></li>
-
-                <li><a href="register.html"> Register</a></li>
-                <li><a href="logout.html"> Logout </a></li>
-                <li><a href="profile.html">Profile <img src="assets/images/user.png" alt=""></a></li>
-              </ul>
-              <a class='menu-trigger'>
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
-            </nav>
+      <!-- ***** Banner Start ***** -->      
+      <form method="POST" action="#" enctype="multipart/form-data">
+        {{form.hidden_tag()}}
+        <div class ="second_element">
+          <div class="description">
+          <h5>{{form.description.label() }}</h5>
+          </div>
+          <div class="text_div">
+          {{ form.description(class = "textaria", placeholder="Write the photo description here " ) }}
           </div>
         </div>
-      </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="page-content">
-
-                    <!-- ***** Banner Start ***** -->
-                    <div class="main-banner1">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="header-text">
-                                   
-                                    <div class="container-fluid tm-container-content tm-mt-30">
-                                      
-                                        <div class="row tm-mb-90">            
-                                            <div class="col-xl-4 col-lg-3 col-md-5 col-sm-12">
-                                                <img src="assets/images/wallpaper-2.jpeg" alt="Image" class="img-fluid" width="250" height="250">
-                                                
-                                            </div>
-                                            <div class="col-xl-8 col-lg-3 col-md-3 col-sm-12">
-                                                
-                                                <div class="tm-bg-gray tm-video-details">
-                                                    <p class="mb-2">
-                                                       description
-                                                    <br>
-                                                    <br><br>
-                                                    </p>
-                                                    
-                                                    <div class="text-center mb-2">
-                                            
-                                                        <a href="#" class="btn btn-primary tm-btn-big" style="border-radius: 20px;">upload🡅</a>
-                                                       
-                                                    </div>           
-                                                    
-                                    
-                                                    </div>
-                                                   
-                                                    
-                                                
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ***** Banner End ***** -->
-                    <script src="vendor/jquery/jquery.min.js"></script>
-                    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-                    <script src="assets/js/isotope.min.js"></script>
-                    <script src="assets/js/owl-carousel.js"></script>
-                    <script src="assets/js/tabs.js"></script>
-                    <script src="assets/js/popup.js"></script>
-                    <script src="assets/js/custom.js"></script>
-
-
-</body>
-
-</html>
+        <div class ="first_element">
+          <div class="title">
+          <h5>{{form.title.label}}</h5>
+          </div>
+          <div class="title_div">
+          {{ form.title(class = "title_botton", placeholder="Write the photo title here") }}
+          </div>
+        </div>   
+        <div>
+           {{ form.image_file(class="form-control-file", style="display: none") }}
+           <label for="{{ form.image_file.id }}" class="rounded-circle account-img">
+            <img src="{{url_for('static', filename='/assets/css/uplode.jpg')}}" alt="Upload image here" title="uplode image here" class ="Uploded_photo" width="350" height="450">
+            </label>
+        </div>   
+        <div class="text-center mb-2">
+          <button class="cssbuttons-io-button">
+            {{ form.submit(class="btn") }}
+          </button>
+        </div>
+        <div class="cat_container">
+          <div class="dropdown">
+          {{ form.category( class="btn btn-primary category-button") }}
+            <ul class="dropdown-menu category-list" aria-labelledby="categoryDropdown">
+          </div>
+        </div>
+    </div>
+  </div>           
+{% endblock content %}

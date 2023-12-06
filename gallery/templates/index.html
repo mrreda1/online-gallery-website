@@ -4,16 +4,25 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="page-content">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                      {% for category, message in messages %}
+                          <div class='alert alert-{{ category }}'>
+                              {{ message }}
+                          </div>
+                      {% endfor %}
+                  {% endif %}
+              {% endwith %}
 
             <!-- ***** Banner Start ***** -->
             <div class="main-banner">
               <div class="row">
                 <div class="col-lg-7">
                   <div class="header-text">
-                    <h6>Welcome To Zftot</h6>
+                    <h6>Welcome To PHOTOGIA</h6>
                     <h4><em>Browse</em> Our Popular Gallary Here</h4>
                     <div class="main-button">
-                      <a href="discovery.html">discover now</a>
+                      <a href="{{ url_for('main.Discovery') }}">discover now</a>
                     </div>
                   </div>
                 </div>
@@ -29,119 +38,19 @@
                     <h4><em>Most Popular</em> Right Now</h4>
                   </div>
                   <div class="row">
+
+                    {% for post in posts.items %}
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
-                        <a href="image.html" class="logo">
-                          <img src="assets/images/wallpaper-2.jpeg" alt="">
+                          <a href="{{url_for('posts.post', post_id = post.id)}}" class="logo">
+                          <img src="{{ url_for('static', filename="posts_media/" + post.image_file) }}" alt="">
                         </a>
-
-
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/diy-2.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/graphic design-1.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/room decoration-2.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/wallpaper-7.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/wallpaper-5.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/qoute-5.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/wallpaper-6.jpeg" alt="">
-                        </a>
-
-
-
-                      </div>
-                    </div>
-
-
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/graphic design-4.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/qoute-6.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/room decoration-2.jpeg" alt="">
-                        </a>
-
-
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="index.html" class="logo">
-                          <img src="assets/images/qoute-4.jpeg" alt="">
-                        </a>
-
-                      </div>
-                    </div>
-                    <div class="col-lg-12">
+                    {% endfor %}
+           <div class="col-lg-12">
                     <div class="main-button">
-                      <a href="browse.html">Discover Popular</a>
+                      <a href="{{url_for('main.Discovery')}}">Discover Popular</a>
                     </div>
                   </div>
                   </div>
@@ -217,7 +126,7 @@
               </div>
               <div class="col-lg-12">
                 <div class="main-button">
-                  <a href="more.html">View more</a>
+                  <a href="{{url_for('main.Discovery')}}">View more</a>
                 </div>
               </div>
             </div>

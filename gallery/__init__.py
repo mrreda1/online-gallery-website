@@ -21,11 +21,11 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    # from gallery.users.routes import users
-    # from gallery.posts.routes import posts
+    from gallery.users.routes import users
+    from gallery.posts.routes import posts
     from gallery.main.routes import main
-    # app.register_blueprint(users)
-    # app.register_blueprint(posts)
+    app.register_blueprint(users)
+    app.register_blueprint(posts)
     app.register_blueprint(main)
 
     return app

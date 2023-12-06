@@ -10,9 +10,11 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    firstname = db.Column(db.String(30), nullable=False)
+    lastname = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
@@ -25,7 +27,7 @@ class User(db.Model):
     def __repr__(self):
         return f'<User id={self.id} username={self.username}>'
 
-class Category(db.Model):
+class Category(db.Model, UserMixin):
     __tablename__ = 'categories'
     id = db.Column(db.String(10), primary_key=True)
     cat_name = db.Column(db.String(50), nullable=False)
@@ -36,7 +38,7 @@ class Category(db.Model):
     def __repr__(self):
         return f'<Category id={self.id} cat_name={self.cat_name}>'
 
-class Post(db.Model):
+class Post(db.Model, UserMixin):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
@@ -52,7 +54,7 @@ class Post(db.Model):
     def __repr__(self):
         return f'<Post id={self.id} title={self.title}>'
 
-class UserPreferredCategory(db.Model):
+class UserPreferredCategory(db.Model, UserMixin):
     __tablename__ = 'user_preferred_categories'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
     category_id = db.Column(db.String(10), db.ForeignKey('categories.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True)
@@ -60,7 +62,7 @@ class UserPreferredCategory(db.Model):
     def __repr__(self):
         return f'<UserPreferredCategory user_id={self.user_id} category_id={self.category_id}>'
 
-class SavedPost(db.Model):
+class SavedPost(db.Model, UserMixin):
     __tablename__ = 'saved_posts'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
@@ -68,7 +70,7 @@ class SavedPost(db.Model):
     def __repr__(self):
         return f'<SavedPost user_id={self.user_id} post_id={self.post_id}>'
 
-class Vote(db.Model):
+class Vote(db.Model, UserMixin):
     __tablename__ = 'votes'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
