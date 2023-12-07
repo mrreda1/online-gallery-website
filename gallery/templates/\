@@ -69,9 +69,11 @@
                 <div class="item">
                   <ul>
                     {% for category in page.items %}
+    <div >
                     <li><img src="{{ url_for('static', filename='category_pics/' + category.cat_image) }} " alt="" class="templatemo-item"></li>
                     <li><h4>{{ category.cat_name }}</h4>
                     <li><div class="main-border-button "><a href="more.html">Discover more</a></div></li>
+      </div>
                     {% endfor %}
                   </ul>
                 </div>
