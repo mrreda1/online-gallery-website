@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
+import flask_login
 from gallery import bcrypt, db
 from gallery.users.forms import LoginForm, RegistrationForm, UpdateAccountForm, UpdateSecurityForm
 from gallery.models import Post, User, Vote
@@ -21,8 +22,9 @@ def register():
         user = User(username=username, email=email, password=hashed_pwd, firstname=firstname, lastname=lastname)
         db.session.add(user)
         db.session.commit()
+        flask_login.login_user(user)
         flash(f'Your account has been created!', 'success')
-        return redirect(url_for('users.login'))
+        return redirect(url_for('posts.categories'))
 
     return render_template('register.html', title='Register', form=form)
 

@@ -5,7 +5,7 @@ from gallery.posts.utils import save_picture
 
 from gallery import db
 from gallery.posts.forms import PostForm
-from gallery.models import Category, Post, User, Vote
+from gallery.models import Category, Post, User, UserPreferredCategory, Vote
 
 posts = Blueprint('posts', __name__)
 
@@ -52,7 +52,7 @@ def post(post_id):
         if(state == 1):
             up = '#FF161E'
         else:
-            down = '#D93A00'
+            down = '#FF161E'
 
     user = User.query.get(post.publisher_id)
     return render_template('image.html', title=post.title, post=post, user=user, posts=posts, votes=votes, up=up, down=down)
@@ -67,3 +67,21 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
+
+@posts.route("/categories", methods=['POST', 'GET'])
+@login_required
+def categories():
+    categories = Category.query.all()
+    if request.form.get('submit'):
+        cat_list = list(filter(None, [cat.id if request.form.get(cat.id) else None for cat in categories]))
+        if(len(cat_list) < 5):
+            flash("You must choose at least 5 categories", "danger")
+            return redirect(url_for('posts.categories'))
+        for ucat in UserPreferredCategory.query.filter_by(user_id=current_user.id).all():
+            db.session.delete(ucat)
+        for cat_id in cat_list:
+            db.session.add(UserPreferredCategory(user_id=current_user.id, category_id=cat_id))
+        db.session.commit()
+        return redirect(url_for('main.home'))
+
+    return render_template('category.html', categories=categories)

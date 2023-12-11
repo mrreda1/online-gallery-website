@@ -1,0 +1,220 @@
+{% extends "layout.html" %}
+{% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-content">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class='alert alert-{{ category }}'>
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <!-- ***** Banner Start ***** -->
+                        <div class="main-banner1">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="header-text">
+                                        <p class="text">Choose your preferred categories</p>
+                                        <br>
+                                        <hr>
+                                        <br>
+
+                                        <ul>
+                                            <form method="POST"action="{{url_for('posts.categories')}}">
+                                                {% for category in categories %}
+                                                <li>
+                                                    <input type="checkbox" id="myCheckbox{{category.id}}" name="{{category.id}}" />
+                                                    <label for="myCheckbox{{category.id}}">
+                                                    <img src="{{url_for('static', filename='category_pics/' + category.cat_image)}}" alt="{{category.cat_name}}" class="hover-image" />
+                                                        <p class="hover-text hover-text-{{category.id}}">{{category.cat_name}}</p>
+                                                        <p class="btext">{{category.cat_name}}</p>
+                                                    </label>
+                                                </li>
+                                                {% endfor %}
+                                                <input type="submit" class="btn" name="submit" value="Save">
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+        body {
+            margin: 0;
+            display: flex;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hover-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .hover-image:hover+.hover-text {
+            opacity: 1;
+        }
+
+        /****************************************/
+
+        .btn{
+
+            display: inline-block;
+            padding: 10px 30px;
+            font-size: 25px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: 2px solid #3B566E;
+            border-radius: 27px;
+            color: #3B566E;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            margin-left: 430px;
+            margin-top: 70px;
+            background-color: #3B566E;
+            color: white;
+            border-color: #3B566E;
+        }
+
+        /* Hover effect for the button */
+        .btn:hover {
+            background-color: white;
+            color: #3B566E;
+        }
+        .btn:active {
+            opacity: 0.7;
+            background-color: #3B566E;
+            color: white;
+
+        }
+
+
+        /***************************************/
+
+
+        .btext{
+        text-align: center;
+        color:#3B566E;
+        font-weight: bold;
+        font-family:'Courier New', Courier, monospace;
+        font-size: 25px;
+        }
+
+        .text {
+        color: #3B566E;
+        font-size: 50px;
+        font-weight: 400;
+        font-style:Garamond;
+        text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            max-width: 1000px;
+            margin-left: 47px;
+
+
+        }
+
+        li {
+            display: inline-block;
+
+
+        }
+
+        input[type="checkbox"][id^="myCheckbox"] {
+            display: none;
+        }
+
+        label {
+            border: none;
+
+            display: block;
+            position: relative;
+            margin: 10px;
+            cursor: pointer;
+
+        }
+
+        label:before {
+            background-color: rgb(22, 22, 22);
+            color: white;
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            border: 1px solid grey;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 28px;
+            transition-duration: 0.4s;
+            transform: scale(0);
+
+        }
+
+        label img {
+            transition-duration: .2s;
+            transform-origin: 50% 50%;
+            object-fit: cover;
+            height: 300px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        :checked+label {
+            border-color: #ddd;
+        }
+
+        :checked+label:before {
+            content: "✓";
+            background-color: grey;
+            transform: scale(1);
+        }
+
+        :checked+label img {
+            transform: scale(0.9);
+            /* box-shadow: 0 0 5px #333; */
+            z-index: -1;
+        }
+        </style>
+
+
+        <!-- ***** Banner End ***** -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add click event listeners for each checkbox
+            for (let i = 1; i <= 9; i++) {
+                const checkbox = document.getElementById(`myCheckbox${i}`);
+                const hoverText = document.querySelector(`.hover-text-${i}`);
+
+                checkbox.addEventListener('change', function () {
+                    hoverText.style.opacity = checkbox.checked ? 1 : 0;
+                });
+            }
+        });
+        </script>
+
+{% endblock content %}
