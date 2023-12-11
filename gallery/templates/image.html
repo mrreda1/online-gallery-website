@@ -47,17 +47,20 @@
                                                 <br><br>
                                                     </p>
 
-                                                <div class="text-center mb-2">
-
-
+                                                <div class="text-center mb-2 d-flex" style="justify-content: center;">
                                                     <div class="main-border-button">
                                                     </div>
-                                                    <a href="#"><i class="fa-regular fa-circle-down fa-2xl"
-                                                        style="color: #7bcae5;"></i></a>
-
-                                                    <span>0</span>
-                                                    <a href="#"><i class="fa-regular fa-circle-up fa-2xl"
-                                                        style="color: #7bcae5;"></i></a>
+                                                    <form method="post" action="{{url_for('posts.post', post_id = post.id)}}">
+                                                        <button type="submit" style="background: none;border: none;" name="vote_request" value="1">
+                                                            <i class="fa-regular fa-circle-up fa-2xl" style="color: {{up}};"></i></a>
+                                                        </button>
+                                                    </form>
+                                                    <span>{{ votes }}</span>
+                                                    <form method="post" action="{{url_for('posts.post', post_id = post.id)}}">
+                                                        <button type="submit" style="background: none;border: none;" name="vote_request" value="-1">
+                                                            <i class="fa-regular fa-circle-down fa-2xl" style="color: {{down}};"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                             <br>
@@ -81,7 +84,7 @@
             <div class="heading-section">
                 <h4><em>Related</em> images</h4>
             </div>
-            <div class="row">
+            <div class="row" style="align-items: center;">
                 {% for rel_post in posts %}
                 {% if rel_post != post %}
                 <div class="col-lg-3 col-sm-6">

@@ -5,7 +5,7 @@ from gallery.posts.utils import save_picture
 
 from gallery import db
 from gallery.posts.forms import PostForm
-from gallery.models import Category, Post, User
+from gallery.models import Category, Post, User, Vote
 
 posts = Blueprint('posts', __name__)
 
@@ -26,11 +26,36 @@ def new_post():
     return render_template('upload.html', title='New Post', form=form)
 
 @posts.route("/post/<int:post_id>", methods=['GET', 'POST'])
+@login_required
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     posts = Post.query.filter_by(category_id = post.category_id).all()
+    vote_request = request.form.get('vote_request')
+    up_votes = len(Vote.query.filter(Vote.post_id == post.id, Vote.vote_type == 1).all())
+    down_votes = len(Vote.query.filter(Vote.post_id == post.id, Vote.vote_type == -1).all())
+    votes = up_votes - down_votes
+    vote_record = Vote.query.filter(Vote.user_id == current_user.id, Vote.post_id == post.id).first()
+    down = up = '#7bcae5'
+    if(vote_request):
+        if(vote_record):
+            state = vote_record.vote_type
+            if(str(vote_request) == str(state)):
+                db.session.delete(vote_record)
+            else:
+                vote_record.vote_type = vote_request
+        else:
+            db.session.add(Vote(user_id = current_user.id, post_id = post.id, vote_type = vote_request))
+        db.session.commit()
+        return redirect(url_for('posts.post', post_id = post.id))
+    if(vote_record):
+        state = vote_record.vote_type
+        if(state == 1):
+            up = '#FF161E'
+        else:
+            down = '#D93A00'
+
     user = User.query.get(post.publisher_id)
-    return render_template('image.html', title=post.title, post=post, user=user, posts=posts)
+    return render_template('image.html', title=post.title, post=post, user=user, posts=posts, votes=votes, up=up, down=down)
 
 @posts.route("/post/<int:post_id>/delete", methods=['POST', 'GET'])
 @login_required

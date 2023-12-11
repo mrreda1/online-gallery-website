@@ -82,6 +82,7 @@ def updateProfile():
     return render_template('userinfo.html', title='Edit Profile', imagepfp = pfp, form=form, security = security)
 
 @users.route("/user/<string:username>", methods=['GET'])
+@login_required
 def userProfile(username):
     user = User.query.filter_by(username=username).first_or_404()
     uploaded_images = len(Post.query.filter_by(publisher_id=user.id).all())
@@ -90,6 +91,7 @@ def userProfile(username):
 
 
 @users.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('main.home'))
