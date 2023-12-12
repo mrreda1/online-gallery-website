@@ -5,7 +5,7 @@ from gallery.posts.utils import save_picture
 
 from gallery import db
 from gallery.posts.forms import PostForm
-from gallery.models import Category, Post, User, UserPreferredCategory, Vote
+from gallery.models import Category, Post, User, UserPreferredCategory, Vote, SavedPost
 
 posts = Blueprint('posts', __name__)
 
@@ -31,11 +31,14 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     posts = Post.query.filter_by(category_id = post.category_id).all()
     vote_request = request.form.get('vote_request')
+    save_request = request.form.get('save_request')
     up_votes = len(Vote.query.filter(Vote.post_id == post.id, Vote.vote_type == 1).all())
     down_votes = len(Vote.query.filter(Vote.post_id == post.id, Vote.vote_type == -1).all())
     votes = up_votes - down_votes
     vote_record = Vote.query.filter(Vote.user_id == current_user.id, Vote.post_id == post.id).first()
+    save_record = SavedPost.query.filter(SavedPost.user_id == current_user.id, SavedPost.post_id == post.id).first()
     down = up = '#7bcae5'
+    save = "None"
     if(vote_request):
         if(vote_record):
             state = vote_record.vote_type
@@ -47,6 +50,15 @@ def post(post_id):
             db.session.add(Vote(user_id = current_user.id, post_id = post.id, vote_type = vote_request))
         db.session.commit()
         return redirect(url_for('posts.post', post_id = post.id))
+    elif(save_request):
+        if(save_record):
+            db.session.delete(save_record)
+        else:
+            db.session.add(SavedPost(user_id = current_user.id, post_id = post.id))
+        db.session.commit()
+        return redirect(url_for('posts.post', post_id = post.id))
+    if(save_record):
+        save = "#FAF0F0"
     if(vote_record):
         state = vote_record.vote_type
         if(state == 1):
@@ -55,7 +67,7 @@ def post(post_id):
             down = '#FF161E'
 
     user = User.query.get(post.publisher_id)
-    return render_template('image.html', title=post.title, post=post, user=user, posts=posts, votes=votes, up=up, down=down)
+    return render_template('image.html', title=post.title, post=post, user=user, posts=posts, votes=votes, up=up, down=down, save=save)
 
 @posts.route("/post/<int:post_id>/delete", methods=['POST', 'GET'])
 @login_required

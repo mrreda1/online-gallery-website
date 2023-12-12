@@ -34,8 +34,11 @@
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <br><br>
                                                 <div class="main-border-button">
-                                                    <a href="#"><i class="fa-solid fa-bookmark fa-xl"
-                                                        style="color: #7bcae5;"></i> Save</a>
+                                                    <form method="post" action="{{url_for('posts.post', post_id = post.id)}}">
+                                                        <button class="btn" type="submit" style="background:{{save}};border: solid; border-radius: 2rem; border-width: 1px; padding: 7px 1.2rem;" name="save_request" value="1">
+                                                            <i class="fa-solid fa-bookmark fa-xl" style="color: #7bcae5;"></i> Save
+                                                        </button>
+                                                    </form>
                                                 </div>
 
                                                 {% if user == current_user %}

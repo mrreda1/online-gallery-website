@@ -17,6 +17,7 @@ def home():
 def about():
     return render_template('about.html', title='About')
 
+
 @main.route("/discovery")
 def Discovery():
     page = request.args.get('page', 1, type=int)

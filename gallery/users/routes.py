@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 import flask_login
 from gallery import bcrypt, db
 from gallery.users.forms import LoginForm, RegistrationForm, UpdateAccountForm, UpdateSecurityForm
-from gallery.models import Post, User, Vote
+from gallery.models import Post, SavedPost, User, Vote
 from gallery.users.utils import save_picture
 
 users = Blueprint('users', __name__)
@@ -87,9 +87,13 @@ def updateProfile():
 @login_required
 def userProfile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    uploaded_images = len(Post.query.filter_by(publisher_id=user.id).all())
+    uploaded_posts = Post.query.filter_by(publisher_id=user.id).all()
+    uploaded_images = len(uploaded_posts)
+    saved_posts_id = SavedPost.query.filter_by(user_id=user.id).all()
+    saved_posts = [Post.query.get(int(post.post_id)) for post in saved_posts_id]
     votes = len(Vote.query.filter_by(user_id=user.id).all())
-    return render_template('profile.html', user=user, title=username, uploaded_images=uploaded_images, votes=votes)
+    return render_template('profile.html', user=user, title=username, uploaded_images=uploaded_images,
+                           votes=votes, uploaded_posts=uploaded_posts, saved_posts=saved_posts)
 
 
 @users.route("/logout")
