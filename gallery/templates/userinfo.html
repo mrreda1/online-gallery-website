@@ -16,7 +16,7 @@
             <form method="POST" action="#" enctype="multipart/form-data">
               <div class="media mb-4 d-flex header-text" style="background-color: rgba(253, 132, 173, 0.4);padding: 9px 9px;border-radius: 12px;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.075);">
                {{ form.picture(class="form-control-file", style="display: none") }}
-               <label for="{{ form.picture.id }}" class="rounded-circle account-img">
+               <label for="{{ form.picture.id }}" class="rounded-circle account-img" style="cursor: pointer;">
               <img class="rounded-circle account-img pfp-brit me-5" style="width: 150px; height: auto;" src="{{ imagepfp }}">
                 </label>
                 <div class="media-body">

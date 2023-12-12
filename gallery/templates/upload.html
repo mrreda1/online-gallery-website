@@ -24,7 +24,7 @@
         </div>   
         <div>
            {{ form.image_file(class="form-control-file", style="display: none") }}
-           <label for="{{ form.image_file.id }}" class="rounded-circle account-img">
+           <label for="{{ form.image_file.id }}" class="rounded-circle account-img" style="cursor: pointer;">
             <img src="{{url_for('static', filename='/assets/css/upload.png')}}" alt="Upload image here" title="uplode image here" class ="Uploded_photo" width="350" height="450">
             </label>
         </div>   
