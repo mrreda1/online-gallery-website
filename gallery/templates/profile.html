@@ -33,29 +33,24 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="clips">
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <div class="heading-section">
-                              <h4><em>Uploaded</em> images</h4>
-                            </div>
-                          </div>
-
-                          {% for post in uploaded_posts %}
-                            <div class="col-lg-3 col-sm-6">
-                              <div class="item">
-                                <div class="thb">
-                                  <a href="{{url_for('posts.post', post_id = post.id)}}" class="logo">
-                                  <img src="{{url_for('static', filename="posts_media/" + post.image_file)}}" alt="" style="border-radius: 23px;">
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          {% endfor %}
+                  <div class="clips">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-lg-12">
+                        <div class="heading-section">
+                          <h4><em>Uploaded</em> images</h4>
                         </div>
                       </div>
+                      {% for post in uploaded_posts %}
+                        <div class="col-lg-3 col-sm-6">
+                          <div class="item">
+                            <div class="thb">
+                              <a href="{{url_for('posts.post', post_id = post.id)}}" class="logo">
+                              <img src="{{url_for('static', filename="posts_media/" + post.image_file)}}" alt="" style="border-radius: 23px;">
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %}
                     </div>
                   </div>
                 </div>
@@ -64,41 +59,27 @@
             <!-- ***** Banner End ***** -->
 
             <!-- ***** Gaming Library Start ***** -->
-            <div class="row">
-              <div class="col-lg-12">
-
-                <style>
-
-                </style>
-
-
-                <div class="row">
+              <div class="clips">
+                <div class="row" style="align-items: center;">
                   <div class="col-lg-12">
-                    <div class="clips">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="heading-section">
-                            <h4><em>Saved</em> images</h4>
-                          </div>
-                        </div>
-                        {% for post in saved_posts %}
-                          <div class="col-lg-3 col-sm-6">
-                            <div class="item">
-                              <div class="thb">
-                                <a href="{{url_for('posts.post', post_id = post.id)}}" class="logo">
-                                <img src="{{url_for('static', filename="posts_media/" + post.image_file)}}" alt="" style="border-radius: 23px;">
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                        {% endfor %}
-                      </div>
+                    <div class="heading-section">
+                      <h4><em>Saved</em> images</h4>
                     </div>
                   </div>
+                  {% for post in saved_posts %}
+                    <div class="col-lg-3 col-sm-6">
+                      <div class="item">
+                        <div class="thb">
+                          <a href="{{url_for('posts.post', post_id = post.id)}}" class="logo">
+                          <img src="{{url_for('static', filename="posts_media/" + post.image_file)}}" alt="" style="border-radius: 23px;">
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
             </div>
-          </div>
           <!-- ***** Gaming Library End ***** -->
         </div>
       </div>
